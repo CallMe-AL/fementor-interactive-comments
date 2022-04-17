@@ -308,6 +308,7 @@ button {
   min-height: 150px;
   border-radius: var(--border-radius);
   padding: var(--box-padding);
+  margin-bottom: 20px;
 }
 
 .label-wrap {
@@ -496,7 +497,6 @@ button {
     display: flex;
     gap: 20px;
     padding-bottom: 30px;
-    margin-bottom: 20px;
   }
   
   .input-form {
