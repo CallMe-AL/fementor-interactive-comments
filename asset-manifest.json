@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/fementor-interactive-comments/static/css/main.64e73e70.css",
-    "main.js": "/fementor-interactive-comments/static/js/main.9911ceb5.js",
+    "main.js": "/fementor-interactive-comments/static/js/main.c007f03f.js",
     "static/js/787.cbe0bfc7.chunk.js": "/fementor-interactive-comments/static/js/787.cbe0bfc7.chunk.js",
     "index.html": "/fementor-interactive-comments/index.html",
     "main.64e73e70.css.map": "/fementor-interactive-comments/static/css/main.64e73e70.css.map",
-    "main.9911ceb5.js.map": "/fementor-interactive-comments/static/js/main.9911ceb5.js.map",
+    "main.c007f03f.js.map": "/fementor-interactive-comments/static/js/main.c007f03f.js.map",
     "787.cbe0bfc7.chunk.js.map": "/fementor-interactive-comments/static/js/787.cbe0bfc7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.64e73e70.css",
-    "static/js/main.9911ceb5.js"
+    "static/js/main.c007f03f.js"
   ]
 }
