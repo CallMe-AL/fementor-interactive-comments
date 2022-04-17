@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Score from './Score.jsx';
-import ReplyBtn from './ReplyBtn.jsx';
-import DeleteBtn from './DeleteBtn.jsx';
-import EditBtn from './EditBtn.jsx';
+import Score from './buttons/Score.jsx';
+import ReplyBtn from './buttons/ReplyBtn.jsx';
+import DeleteBtn from './buttons/DeleteBtn.jsx';
+import EditBtn from './buttons/EditBtn.jsx';
 
 const Comment = ({ 
   comment,  
