@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Comment from './Comment.jsx';
-import Input from './Input.jsx';
 
 const CommentSection = ({ 
     comment, 
@@ -18,8 +17,7 @@ const CommentSection = ({
   }) => {
 
   const [currentReplies, setCurrentReplies] = useState([]);
-  const [userIsReplying, setUserIsReplying] = useState(false);
-  const [replyingTo, setReplyingTo] = useState(null);
+  
 
   useEffect(() => {
     if (replies) {
@@ -38,11 +36,10 @@ const CommentSection = ({
         decreaseScore={decreaseScore}
         increaseScore={increaseScore}
         isReply={false}
+        parentEl={comment}
         setData={setData}
         setDelObj={setDelObj}
         setModalState={setModalState}
-        setReplyingTo={setReplyingTo}
-        setUserIsReplying={setUserIsReplying}
         timeSince={timeSince}
       />
       <div className="replies-wrap">
@@ -63,25 +60,11 @@ const CommentSection = ({
               setData={setData}
               setDelObj={setDelObj}
               setModalState={setModalState}
-              setReplyingTo={setReplyingTo}
-              setUserIsReplying={setUserIsReplying}
               timeSince={timeSince}
             />
           })
         }
-        {
-          userIsReplying && 
-          <Input 
-            data={data}
-            isReply={true} 
-            parentEl={comment}
-            replyingTo={replyingTo}
-            setReplyingTo={setReplyingTo}
-            setData={setData}
-            setUserIsReplying={setUserIsReplying}
-            user={currentUser}
-          />
-        }
+        
       </div>
     </section>
   )

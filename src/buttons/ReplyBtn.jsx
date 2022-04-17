@@ -1,10 +1,10 @@
 import React from 'react';
 
-const ReplyBtn = ({ setReplyingTo, setUserIsReplying, username }) => {
+const ReplyBtn = ({ setParentReply, setUserIsReplying, username }) => {
 
   const setReply = () => {
     setUserIsReplying(true);
-    setReplyingTo(username);
+    setParentReply(username);
   }
 
   return (

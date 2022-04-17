@@ -4,9 +4,9 @@ const Input = ({
   data, 
   isReply, 
   parentEl, 
-  replyingTo, 
-  setData, 
-  setReplyingTo, 
+  parentReply, 
+  setData,  
+  setParentReply,
   setUserIsReplying, 
   user 
 }) => {
@@ -17,7 +17,7 @@ const Input = ({
   useEffect(() => {
     if (isReply) {
       inputRef.current.focus();
-      setTextInput(`@${replyingTo} `);
+      setTextInput(`@${parentReply} `);
     }
   }, []);  
 
@@ -35,8 +35,8 @@ const Input = ({
         score: 0,
         user: {
           image: { 
-            png: process.env.PUBLIC_URL + user.image.png,
-            webp: process.env.PUBLIC_URL + user.image.webp
+            png: user.image.png,
+            webp: user.image.webp
           },
           username: user.username
         },
@@ -61,12 +61,12 @@ const Input = ({
         id: id,
         content: newInput,
         createdAt: date,
-        replyingTo: replyingTo,
+        replyingTo: parentReply,
         score: 0,
         user: {
           image: { 
-            png: process.env.PUBLIC_URL + user.image.png,
-            webp: process.env.PUBLIC_URL + user.image.webp
+            png: user.image.png,
+            webp: user.image.webp
           },
           username: user.username
         }
@@ -76,7 +76,7 @@ const Input = ({
     localStorage.setItem('comment-data', JSON.stringify(tempData));
     setTextInput('');
     setUserIsReplying(false);
-    setReplyingTo(null);
+    setParentReply(null);
   }
 
   return (

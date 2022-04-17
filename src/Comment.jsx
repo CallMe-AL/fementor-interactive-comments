@@ -3,6 +3,8 @@ import Score from './buttons/Score.jsx';
 import ReplyBtn from './buttons/ReplyBtn.jsx';
 import DeleteBtn from './buttons/DeleteBtn.jsx';
 import EditBtn from './buttons/EditBtn.jsx';
+import Input from './Input.jsx';
+
 
 const Comment = ({ 
   comment,  
@@ -10,12 +12,9 @@ const Comment = ({
   data,
   isReply,
   parentEl, 
-  replyingTo,
   setData,
   setDelObj,
   setModalState,
-  setReplyingTo,
-  setUserIsReplying,
   timeSince
 }) => {
 
@@ -23,6 +22,8 @@ const Comment = ({
   const [content, setContent] = useState(comment.content);
   const [upVoted, setUpVoted] = useState(false);
   const [downVoted, setDownVoted] = useState(false);
+  const [userIsReplying, setUserIsReplying] = useState(false);
+  const [parentReply, setParentReply] = useState(null);
 
   const increaseScore = (comment, reply, id) => {
     let tempData = data;
@@ -104,81 +105,96 @@ const Comment = ({
   }
 
   return (
-    <div className="comment">
-      {/* score display for desktop */}
-      <div className="desktop-score">
-        <Score comment={comment} decreaseScore={decreaseScore} increaseScore={increaseScore} isReply={isReply}/>
-      </div>
-      <div className="inner-comment-wrap">      
-      <div className="comment-head flex">
-        <img className="comment-image headshot-img" src={process.env.PUBLIC_URL + comment.user.image.png} alt={'headshot of ' + comment.user.username} />
-        <p className="commenter flex">{comment.user.username}{comment.user.username === currentUser.username && <span className='you-tag'>you</span>}</p>
+    <>
+      <div className="comment">
+        {/* score display for desktop */}
+        <div className="desktop-score">
+          <Score comment={comment} decreaseScore={decreaseScore} increaseScore={increaseScore} isReply={isReply}/>
+        </div>
+        <div className="inner-comment-wrap">      
+        <div className="comment-head flex">
+          <img className="comment-image headshot-img" src={process.env.PUBLIC_URL + comment.user.image.png} alt={'headshot of ' + comment.user.username} />
+          <p className="commenter flex">{comment.user.username}{comment.user.username === currentUser.username && <span className='you-tag'>you</span>}</p>
+          {
+            // checks if creation time is a number -- it'll be one we created
+            // if not, it's from the dummy file that came with this package
+            typeof comment.createdAt === 'number'
+            ? <p className="date-posted">{timeSince(comment.createdAt)}</p>
+            : <p className="date-posted">{comment.createdAt}</p>
+          } 
+          <div className="desktop-reply-wrap">
+            {comment.user.username === currentUser.username 
+              ? <>
+                  <DeleteBtn 
+                    comment={comment} 
+                    isReply={isReply} 
+                    parentEl={parentEl} 
+                    setDelObj={setDelObj}
+                    setModalState={setModalState}
+                    /> 
+                    <EditBtn setIsEditing={setIsEditing}/>
+                </>
+              : <ReplyBtn username={comment.user.username} setParentReply={setParentReply} setUserIsReplying={setUserIsReplying}/>          
+            }
+          </div>       
+        </div>
         {
-          // checks if creation time is a number -- it'll be one we created
-          // if not, it's from the dummy file that came with this package
-          typeof comment.createdAt === 'number'
-          ? <p className="date-posted">{timeSince(comment.createdAt)}</p>
-          : <p className="date-posted">{comment.createdAt}</p>
-        } 
-        <div className="desktop-reply-wrap">
-          {comment.user.username === currentUser.username 
-            ? <>
-                <DeleteBtn 
-                  comment={comment} 
-                  isReply={isReply} 
-                  parentEl={parentEl} 
-                  setDelObj={setDelObj}
-                  setModalState={setModalState}
-                  /> 
-                  <EditBtn setIsEditing={setIsEditing}/>
-              </>
-            : <ReplyBtn username={comment.user.username} setReplyingTo={setReplyingTo} setUserIsReplying={setUserIsReplying}/>          
-          }
-        </div>       
+          isEditing
+          ? 
+            <form className="edit-form">
+              <div className="edit-label-wrap">
+                <label htmlFor="editcomment"></label>
+                <textarea 
+                    className="textarea-styles edit-comment" 
+                    onChange={(e) => setContent(e.target.value)}
+                    id="editcomment" 
+                    name="editcomment" 
+                    placeholder='Add a new comment...'
+                    value={content}>
+                  </textarea>
+              </div>
+              <div className="edit-btns-wrap flex">
+                <button className="input-btns cancel-edit-btn" aria-label="Cancel a new reply" onClick={() => setIsEditing(false)}>Cancel</button>
+                <button className="input-btns update-btn" aria-label="update comment" onClick={(e) => updateComment(e, comment)}>Update</button>
+              </div>
+            </form>
+          : <p className="comment-content">{comment.replyingTo && <span className='reply-tag'>{`@${comment.replyingTo}`}</span>} {content}</p>
+        }
+        
+        <div className="comment-bottom flex">
+          <Score comment={comment} decreaseScore={decreaseScore} increaseScore={increaseScore} isReply={isReply}/>
+          <div className="btns-wrap flex">
+            {comment.user.username === currentUser.username 
+              ? <>
+                  <DeleteBtn 
+                    comment={comment} 
+                    isReply={isReply} 
+                    parentEl={parentEl} 
+                    setDelObj={setDelObj}
+                    setModalState={setModalState}
+                    /> 
+                    <EditBtn setIsEditing={setIsEditing}/>
+                </>
+              : <ReplyBtn username={comment.user.username} setParentReply={setParentReply} setUserIsReplying={setUserIsReplying}/>          
+            }          
+          </div>        
+        </div>
+        </div>      
       </div>
       {
-        isEditing
-        ? 
-          <form className="edit-form">
-            <div className="edit-label-wrap">
-              <label htmlFor="editcomment"></label>
-              <textarea 
-                  className="textarea-styles edit-comment" 
-                  onChange={(e) => setContent(e.target.value)}
-                  id="editcomment" 
-                  name="editcomment" 
-                  placeholder='Add a new comment...'
-                  value={content}>
-                </textarea>
-            </div>
-            <div className="edit-btns-wrap flex">
-              <button className="input-btns cancel-edit-btn" aria-label="Cancel a new reply" onClick={() => setIsEditing(false)}>Cancel</button>
-              <button className="input-btns update-btn" aria-label="update comment" onClick={(e) => updateComment(e, comment)}>Update</button>
-            </div>
-          </form>
-        : <p className="comment-content">{replyingTo && <span className='reply-tag'>{`@${replyingTo}`}</span>} {content}</p>
-      }
-      
-      <div className="comment-bottom flex">
-        <Score comment={comment} decreaseScore={decreaseScore} increaseScore={increaseScore} isReply={isReply}/>
-        <div className="btns-wrap flex">
-          {comment.user.username === currentUser.username 
-            ? <>
-                <DeleteBtn 
-                  comment={comment} 
-                  isReply={isReply} 
-                  parentEl={parentEl} 
-                  setDelObj={setDelObj}
-                  setModalState={setModalState}
-                  /> 
-                  <EditBtn setIsEditing={setIsEditing}/>
-              </>
-            : <ReplyBtn username={comment.user.username} setReplyingTo={setReplyingTo} setUserIsReplying={setUserIsReplying}/>          
-          }          
-        </div>        
-      </div>
-      </div>      
-    </div>
+        userIsReplying && 
+        <Input 
+          data={data}
+          isReply={true} 
+          parentEl={parentEl}
+          parentReply={parentReply}
+          setParentReply={setParentReply}
+          setData={setData}
+          setUserIsReplying={setUserIsReplying}
+          user={currentUser}
+        />
+        }
+    </>
   )
 }
 
