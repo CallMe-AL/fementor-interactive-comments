@@ -100,7 +100,7 @@ function App() {
   }
 
   return (
-    <div className="app-container flex">
+    <main className="app-container flex">
       <Modal state={modalState} setModalState={setModalState} delObj={delObj} deleteComment={deleteComment}setDelObj={setDelObj} />
       { data.comments && data.comments
           .sort((a, b) => {
@@ -130,7 +130,7 @@ function App() {
                     setData={setData}
                   />
       }
-    </div>
+    </main>
   );
 }
 

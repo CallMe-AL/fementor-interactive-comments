@@ -114,7 +114,7 @@ const Comment = ({
         <div className="inner-comment-wrap">      
         <div className="comment-head flex">
           <img className="comment-image headshot-img" src={process.env.PUBLIC_URL + comment.user.image.png} alt={'headshot of ' + comment.user.username} />
-          <p className="commenter flex">{comment.user.username}{comment.user.username === currentUser.username && <span className='you-tag'>you</span>}</p>
+          <h2 className="commenter flex">{comment.user.username}{comment.user.username === currentUser.username && <span className='you-tag'>you</span>}</h2>
           {
             // checks if creation time is a number -- it'll be one we created
             // if not, it's from the dummy file that came with this package
