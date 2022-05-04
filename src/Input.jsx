@@ -17,13 +17,14 @@ const Input = ({
   useEffect(() => {
     if (isReply) {
       inputRef.current.focus();
-      setTextInput(`@${parentReply} `);
+      setTextInput(`@${parentReply} `);      
     }
   }, []);  
 
   const createNewComment = (e) => {
     e.preventDefault();
-    if (textInput === '') return;
+    console.log('input: ', textInput);
+    if (textInput.trim() === '') return;
     let tempData = data;
     const id = Math.floor(Math.random() * 1000);
     const date = Date.now();
@@ -50,10 +51,12 @@ const Input = ({
 
   const createNewReply = (e) => {
     e.preventDefault();
-    if (textInput === '') return;
     let tempData = data;
+    // creating new input to work with -- everything after the reply tag
     const indexOfSpace = textInput.indexOf(' ');
     const newInput = textInput.substring(indexOfSpace + 1);
+    // checking if there's just empty space after the reply tag, returning if so
+    if (newInput.trim() === '') return;
     const id = Math.floor(Math.random() * 1000);
     const date = Date.now();
     parentEl.replies.push(
